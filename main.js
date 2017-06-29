@@ -1,4 +1,4 @@
-window.setInterval(function() {
+document.addEventListener('DOMNodeInserted', function() {
     var calendarContainers = document.getElementsByClassName('aY ac X s2');
     if (calendarContainers.length > 0) {
         var firstCalendarEvent = calendarContainers[0];
@@ -120,4 +120,4 @@ window.setInterval(function() {
         }
     }
     /// call your function here
-}, 10);
+});
