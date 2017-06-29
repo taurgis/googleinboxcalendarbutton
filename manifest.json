@@ -1,0 +1,10 @@
+{
+    "name": "Google Inbox - Calendar button",
+    "description": "A simple plugin that adds an 'add to calendar' button below meeting invites.",
+    "version": "1",
+    "manifest_version": 2,
+    "content_scripts": [{
+        "matches": ["https://inbox.google.com/*"],
+        "js": ["main.js"]
+    }]
+}
