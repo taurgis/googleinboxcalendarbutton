@@ -1,123 +1,141 @@
-document.addEventListener('DOMNodeInserted', function() {
+if (document.location.href.indexOf('inbox.google.com') > 0) {
+  document.addEventListener('DOMNodeInserted', function() {
     var calendarContainers = document.getElementsByClassName('aY ac X s2');
     if (calendarContainers.length > 0) {
-        var firstCalendarEvent = calendarContainers[0];
+      var firstCalendarEvent = calendarContainers[0];
 
-        if (firstCalendarEvent.getElementsByClassName("calendarButton-JS").length === 0) {
-            var btn = createCalendarButton();
+      if (firstCalendarEvent.getElementsByClassName("calendarButton-JS").length === 0) {
+        var btn = createCalendarButton();
 
-            var buttonContainer = firstCalendarEvent.getElementsByClassName("iQ")[0].appendChild(btn);
+        var buttonContainer = firstCalendarEvent.getElementsByClassName("iQ")[0].appendChild(btn);
 
-            var eventName = firstCalendarEvent.getElementsByClassName("nM")[0].innerText;
-            var eventDateString = firstCalendarEvent.getElementsByClassName("aL pj")[0].innerText;
-            var locationString = firstCalendarEvent.getElementsByClassName("aL pj")[1].innerText;
+        var eventName = firstCalendarEvent.getElementsByClassName("nM")[0].innerText;
+        var eventDateString = firstCalendarEvent.getElementsByClassName("aL pj")[0].innerText;
+        var locationString = firstCalendarEvent.getElementsByClassName("aL pj")[1].innerText;
 
-            var dateObject = getDateStringAsJson(eventDateString);
+        var dateObject = getDateStringAsJson(eventDateString);
 
-            btn.onclick = function() {
-                window.open(encodeURI("https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + eventName + "&dates=" +
-                    dateObject.year + dateObject.month + dateObject.day + "T" + dateObject.startTime.replace(":", "") + "00/" +
-                    dateObject.year + dateObject.month + dateObject.day + "T" + dateObject.endTime.replace(":", "") + "00&location=" +
-                    locationString + "&sf=true&output=xml#eventpage_6"));
-            };
-        }
+        btn.onclick = function() {
+          window.open(encodeURI("https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + eventName + "&dates=" +
+            dateObject.year + dateObject.month + dateObject.day + "T" + dateObject.startTime.replace(":", "") + "00/" +
+            dateObject.year + dateObject.month + dateObject.day + "T" + dateObject.endTime.replace(":", "") + "00&location=" +
+            locationString + "&sf=true&output=xml#eventpage_6"));
+        };
+      }
     }
+  });
 
-    function createCalendarButton() {
-        var btn = document.createElement("BUTTON");
-        btn.classList.add("gb_Fa");
-        btn.classList.add("gb_sf");
-        btn.classList.add("gbp1");
-        btn.classList.add("gb_je");
-        btn.classList.add("gb_xb");
-        btn.classList.add("calendarButton-JS");
-        btn.style = "margin: 10px; width: 35%;";
+  createGoToCalendarButton();
+}
 
-        var t = document.createTextNode("Add to calendar");
-        btn.appendChild(t);
+function createCalendarButton() {
+  var btn = document.createElement("BUTTON");
+  btn.classList.add("gb_Fa");
+  btn.classList.add("gb_sf");
+  btn.classList.add("gbp1");
+  btn.classList.add("gb_je");
+  btn.classList.add("gb_xb");
+  btn.classList.add("calendarButton-JS");
+  btn.style = "margin: 10px; width: 35%;";
 
-        return btn;
-    }
-    //example string 7 dec. 2016 09:30–10:00
-    //example string 7 dec. 09:30–10:00
-    function getDateStringAsJson(dateString) {
-        var splitString = dateString.split(' ');
-        var months = {
-            "jan.": "01",
-            "Jan,": "01",
-            "Jan": "01",
+  var t = document.createTextNode("Add to calendar");
+  btn.appendChild(t);
 
-            "feb.": "02",
-            "Feb,": "02",
-            "Feb": "02",
+  return btn;
+}
 
-            "maa.": "03",
-            "Mar,": "03",
-            "Mar": "03",
+function createGoToCalendarButton() {
+  var btn = document.createElement('li');
+  var calendarButtonCheck = document.getElementsByClassName('calendar-button-js');
 
-            "apr.": "04",
-            "Apr,": "04",
-            "Apr": "04",
+  if (calendarButtonCheck.length === 0) {
+    btn.innerHTML = `<li class="oin9Fc cN calendar-button-js" tabindex="0" role="menuitem" onClick="window.open('https://calendar.google.com');">
+                    <img class="io" src="https://lh3.googleusercontent.com/-ttKcTtEPOnM/WVi7q9gStpI/AAAAAAAC12g/X7mCtQedxYAzaTXWojTJRc_rqPZHdYUUACLcBGAs/h120/calendar.png" aria-hidden="true">
+                    <span onhashchange="this.textContent='Calendar';" class="sM calendar-button-text" title="Calendar" jstcache="3811">Calendar</span>
+                  </li>`;
+    document.getElementsByClassName("fv tTwEpb")[0].getElementsByClassName('lQ')[0].getElementsByClassName('Y')[1].appendChild(btn);
+  }
+}
 
-            "mei": "05",
-            "May,": "05",
-            "May": "05",
+//example string 7 dec. 2016 09:30–10:00
+//example string 7 dec. 09:30–10:00
+function getDateStringAsJson(dateString) {
+  var splitString = dateString.split(' ');
+  var months = {
+    "jan.": "01",
+    "Jan,": "01",
+    "Jan": "01",
 
-            "jun.": "06",
-            "Jun,": "06",
-            "Jun": "06",
+    "feb.": "02",
+    "Feb,": "02",
+    "Feb": "02",
 
-            "jul.": "07",
-            "Jul,": "07",
-            "Jul": "07",
+    "maa.": "03",
+    "Mar,": "03",
+    "Mar": "03",
 
-            "aug.": "08",
-            "Aug,": "08",
-            "Aug": "08",
+    "apr.": "04",
+    "Apr,": "04",
+    "Apr": "04",
 
-            "sep.": "09",
-            "Sep,": "09",
-            "Sep": "09",
+    "mei": "05",
+    "May,": "05",
+    "May": "05",
 
-            "okt.": "10",
-            "Oct,": "10",
-            "Oct": "10",
+    "jun.": "06",
+    "Jun,": "06",
+    "Jun": "06",
 
-            "nov.": "11",
-            "Nov,": "11",
-            "Nov": "11",
+    "jul.": "07",
+    "Jul,": "07",
+    "Jul": "07",
 
-            "dec.": "12",
-            "Dec,": "12",
-            "Dec": "12"
-        }
+    "aug.": "08",
+    "Aug,": "08",
+    "Aug": "08",
 
-        if (splitString.length === 3) {
-            var day = splitString[0];
-            var month = splitString[1];
-            var times = splitString[2].split('–');
+    "sep.": "09",
+    "Sep,": "09",
+    "Sep": "09",
 
-            return {
-                day: (day.length === 1) ? "0" + day : day,
-                month: months[month],
-                year: new Date().getFullYear(),
-                startTime: times[0],
-                endTime: times[1]
-            };
-        } else if (splitString.length === 4) {
-            var day = splitString[0];
-            var month = splitString[1];
-            var year = splitString[2].replace(',', '');
-            var times = splitString[3].split('–');
+    "okt.": "10",
+    "Oct,": "10",
+    "Oct": "10",
 
-            return {
-                day: (day.length === 1) ? "0" + day : day,
-                month: months[month],
-                year: year,
-                startTime: times[0],
-                endTime: times[1]
-            };
-        }
-    }
-    /// call your function here
-});
+    "nov.": "11",
+    "Nov,": "11",
+    "Nov": "11",
+
+    "dec.": "12",
+    "Dec,": "12",
+    "Dec": "12"
+  }
+
+  if (splitString.length === 3) {
+    var day = splitString[0];
+    var month = splitString[1];
+    var times = splitString[2].split('–');
+
+    return {
+      day: (day.length === 1) ? "0" + day : day,
+      month: months[month],
+      year: new Date().getFullYear(),
+      startTime: times[0],
+      endTime: times[1]
+    };
+  } else if (splitString.length === 4) {
+    var day = splitString[0];
+    var month = splitString[1];
+    var year = splitString[2].replace(',', '');
+    var times = splitString[3].split('–');
+
+    return {
+      day: (day.length === 1) ? "0" + day : day,
+      month: months[month],
+      year: year,
+      startTime: times[0],
+      endTime: times[1]
+    };
+  }
+}
+/// call your function here
